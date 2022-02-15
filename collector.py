@@ -15,17 +15,20 @@ timeBetweenRequests = 900
 #Gets the command line args
 parser = argparse.ArgumentParser(description='Retrieve data from TomTom on a road every 5 minutes')
 parser.add_argument('apiKey', help="A TomTom API key")
+parser.add_argument('projectId', help="The ID of the firebase project")
 parser.add_argument('-v', '--verbose', action='store_true', help='Output collected data to terminal')
+
+args = parser.parse_args()
 
 # Use the application default credentials
 cred = credentials.ApplicationDefault()
 firebase_admin.initialize_app(cred, {
-  'projectId': 'traffic-data-collector-330909',
+  'projectId': args.projectId,
 })
 db = firestore.client()
 
 
-args = parser.parse_args()
+
 if args.verbose:
     print("This will be verbose")
 
