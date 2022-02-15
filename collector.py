@@ -32,7 +32,7 @@ if args.verbose:
 
 
 #https://stackoverflow.com/questions/46506348/sleep-till-next-15-minute-hourly-interval-0000-0015-0030-0045
-minutesToSleep = 15 - datetime.datetime.now().minute % 15
+minutesToSleep = 15 - datetime.now().minute % 15
 time.sleep(minutesToSleep * 60)
 
 
