@@ -10,8 +10,6 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import os
 
-timeBetweenRequests = 900
-
 #Gets the command line args
 parser = argparse.ArgumentParser(description='Retrieve data from TomTom on a road every 5 minutes')
 parser.add_argument('apiKey', help="A TomTom API key")
@@ -33,6 +31,9 @@ if args.verbose:
     print("This will be verbose")
 
 
+#https://stackoverflow.com/questions/46506348/sleep-till-next-15-minute-hourly-interval-0000-0015-0030-0045
+minutesToSleep = 15 - datetime.datetime.now().minute % 15
+time.sleep(minutesToSleep * 60)
 
 
 while(True):
@@ -68,6 +69,6 @@ while(True):
             u'closed':bool(jsondata['flowSegmentData']['roadClosure'])
         })
 
-
-
-    time.sleep(timeBetweenRequests)
+    #https://stackoverflow.com/questions/46506348/sleep-till-next-15-minute-hourly-interval-0000-0015-0030-0045
+    minutesToSleep = 15 - datetime.datetime.now().minute % 15
+    time.sleep(minutesToSleep * 60)
