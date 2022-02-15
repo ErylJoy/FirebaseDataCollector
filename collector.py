@@ -9,11 +9,12 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 import os
+import re
 
 #Gets the command line args
 parser = argparse.ArgumentParser(description='Retrieve data from TomTom on a road every 5 minutes')
-parser.add_argument('apiKey', help="A TomTom API key")
 parser.add_argument('projectId', help="The ID of the firebase project")
+parser.add_argument('apiKey', help="A TomTom API key")
 parser.add_argument('-v', '--verbose', action='store_true', help='Output collected data to terminal')
 
 args = parser.parse_args()
@@ -61,7 +62,7 @@ while(True):
             writer.writerow([str(datetime.now().strftime("%Y/%m/%d %H:%M:%S")), float(jsondata['flowSegmentData']['currentSpeed']), float(jsondata['flowSegmentData']['confidence'])])
 
         # firebase
-        doc_ref = db.collection(u'roads').document(u'str(row[0])').collection("records").document(dt_string)
+        doc_ref = db.collection(u'roads').document(str(row["segId"])).collection("records").document()
         doc_ref.set({
             u'ds': dt_string,
             u'speed': float(jsondata['flowSegmentData']['currentSpeed']),
@@ -70,5 +71,5 @@ while(True):
         })
 
     #https://stackoverflow.com/questions/46506348/sleep-till-next-15-minute-hourly-interval-0000-0015-0030-0045
-    minutesToSleep = 15 - datetime.datetime.now().minute % 15
+    minutesToSleep = 15 - datetime.now().minute % 15
     time.sleep(minutesToSleep * 60)
