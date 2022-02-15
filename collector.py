@@ -16,7 +16,7 @@ timeBetweenRequests = 900
 parser = argparse.ArgumentParser(description='Retrieve data from TomTom on a road every 5 minutes')
 parser.add_argument('apiKey', help="A TomTom API key")
 parser.add_argument('-v', '--verbose', action='store_true', help='Output collected data to terminal')
-#os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/home/eryljoy/Workstation/cs310/FirebaseDataCollector/fireKey.json"
+
 # Use the application default credentials
 cred = credentials.ApplicationDefault()
 firebase_admin.initialize_app(cred, {
